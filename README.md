@@ -90,12 +90,12 @@ o in un avviso nel back office di PrestaShop.
 ### Plugin WordPress
 
 <p>
-  <a href="https://github.com/pcwebagency/cookie-smart/releases/download/wordpress-v1.2.0/cookie-smart.zip"><img src="https://img.shields.io/badge/Scarica-cookie--smart.zip_1.2.0-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="Scarica il plugin WordPress"></a>
+  <a href="https://github.com/cookie-smart/cookie-smart/releases/download/wordpress-v1.2.0/cookie-smart.zip"><img src="https://img.shields.io/badge/Scarica-cookie--smart.zip_1.2.0-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="Scarica il plugin WordPress"></a>
 </p>
 
 Richiede WordPress 6.0 o successivo e PHP 7.4 o successivo.
 
-1. Scarica [`cookie-smart.zip`](https://github.com/pcwebagency/cookie-smart/releases/download/wordpress-v1.2.0/cookie-smart.zip), l'ultima versione del plugin.
+1. Scarica [`cookie-smart.zip`](https://github.com/cookie-smart/cookie-smart/releases/download/wordpress-v1.2.0/cookie-smart.zip), l'ultima versione del plugin.
 2. In WordPress: *Plugin › Aggiungi nuovo › Carica plugin*, scegli lo zip e attivalo.
 3. Dal menu laterale **Cookie Smart** (icona dello scudo) inserisci la **chiave del sito**, che trovi nel pannello di Cookie Smart.
 4. Escludi lo script di Cookie Smart da minificazione, combinazione e «ritardo JS» del plugin di cache.
@@ -108,12 +108,12 @@ Le nuove versioni compaiono tra gli aggiornamenti dei plugin, anche con gli aggi
 ### Modulo PrestaShop
 
 <p>
-  <a href="https://github.com/pcwebagency/cookie-smart/releases/download/prestashop-v1.2.0/cookiesmart.zip"><img src="https://img.shields.io/badge/Scarica-cookiesmart.zip_1.2.0-df0067?style=for-the-badge&logo=prestashop&logoColor=white" alt="Scarica il modulo PrestaShop"></a>
+  <a href="https://github.com/cookie-smart/cookie-smart/releases/download/prestashop-v1.2.0/cookiesmart.zip"><img src="https://img.shields.io/badge/Scarica-cookiesmart.zip_1.2.0-df0067?style=for-the-badge&logo=prestashop&logoColor=white" alt="Scarica il modulo PrestaShop"></a>
 </p>
 
 Per PrestaShop 1.7.1 e successivi, 8 e 9.
 
-1. Scarica [`cookiesmart.zip`](https://github.com/pcwebagency/cookie-smart/releases/download/prestashop-v1.2.0/cookiesmart.zip), l'ultima versione del modulo.
+1. Scarica [`cookiesmart.zip`](https://github.com/cookie-smart/cookie-smart/releases/download/prestashop-v1.2.0/cookiesmart.zip), l'ultima versione del modulo.
 2. Nel back office: *Moduli › Gestione moduli › Carica un modulo* e scegli lo zip.
 3. *Configura*: inserisci la **chiave del sito**, che trovi nel pannello di Cookie Smart, e lascia attivo il *Blocco lato server*.
 4. *Parametri avanzati › Prestazioni › Svuota la cache*.
