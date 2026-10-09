@@ -2,6 +2,11 @@
 
 Novità del plugin WordPress di Cookie Smart. Le versioni sono scaricabili dalle [release](../../../releases).
 
+## 1.3.0
+
+- Guida all'attivazione per chi installa il plugin senza un account: come creare l'account, aggiungere il sito e trovare la chiave, con i link al sito di Cookie Smart.
+- Avviso nella pagina Plugin e nella Bacheca finché il plugin non è collegato.
+
 ## 1.2.0
 
 - Aggiornamenti dalla bacheca di WordPress: le nuove versioni compaiono tra gli aggiornamenti dei plugin, anche con gli aggiornamenti automatici. Lo zip viene scaricato dalle release GitHub di Cookie Smart e verificato con l'impronta sha256 prima dell'installazione.

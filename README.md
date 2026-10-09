@@ -90,12 +90,12 @@ o in un avviso nel back office di PrestaShop.
 ### Plugin WordPress
 
 <p>
-  <a href="https://github.com/cookie-smart/cookie-smart/releases/download/wordpress-v1.2.0/cookie-smart.zip"><img src="https://img.shields.io/badge/Scarica-cookie--smart.zip_1.2.0-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="Scarica il plugin WordPress"></a>
+  <a href="https://github.com/cookie-smart/cookie-smart/releases/download/wordpress-v1.3.0/cookie-smart.zip"><img src="https://img.shields.io/badge/Scarica-cookie--smart.zip_1.3.0-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="Scarica il plugin WordPress"></a>
 </p>
 
 Richiede WordPress 6.0 o successivo e PHP 7.4 o successivo.
 
-1. Scarica [`cookie-smart.zip`](https://github.com/cookie-smart/cookie-smart/releases/download/wordpress-v1.2.0/cookie-smart.zip), l'ultima versione del plugin.
+1. Scarica [`cookie-smart.zip`](https://github.com/cookie-smart/cookie-smart/releases/download/wordpress-v1.3.0/cookie-smart.zip), l'ultima versione del plugin.
 2. In WordPress: *Plugin › Aggiungi nuovo › Carica plugin*, scegli lo zip e attivalo.
 3. Dal menu laterale **Cookie Smart** (icona dello scudo) inserisci la **chiave del sito**, che trovi nel pannello di Cookie Smart.
 4. Escludi lo script di Cookie Smart da minificazione, combinazione e «ritardo JS» del plugin di cache.

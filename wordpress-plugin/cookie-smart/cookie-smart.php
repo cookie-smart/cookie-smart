@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Cookie Smart
  * Description:       Banner cookie e blocco preventivo degli script collegati al server Cookie Smart.
- * Version:           1.2.0
+ * Version:           1.3.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            PC Web Agency
@@ -42,6 +42,9 @@ final class Cookie_Smart_Plugin
         add_action('admin_menu', [$this, 'adminMenu']);
         add_action('admin_init', [$this, 'registerSettings']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'actionLinks']);
+        add_filter('plugin_row_meta', [$this, 'rowMeta'], 10, 2);
+        // Finché manca la chiave: avviso con il link alla configurazione
+        add_action('admin_notices', [$this, 'setupNotice']);
 
         if ($this->isConfigured()) {
             // Il prima possibile nel <head>, prima di GTM e degli altri tag
@@ -80,7 +83,7 @@ final class Cookie_Smart_Plugin
     private function isConfigured(): bool
     {
         $s = $this->settings();
-        return $s['server_url'] !== '' && $s['site_key'] !== '';
+        return $s['site_key'] !== '';
     }
 
     /** Indirizzo del loader indicato dal server (es. la CDN); altrimenti quello del server configurato. */
@@ -92,7 +95,7 @@ final class Cookie_Smart_Plugin
         }
 
         $s = $this->settings();
-        return untrailingslashit($s['server_url']) . '/api/c/' . rawurlencode($s['site_key']) . '.js';
+        return $this->serverUrl() . '/api/c/' . rawurlencode($s['site_key']) . '.js';
     }
 
     public function adminMenu(): void
@@ -114,6 +117,71 @@ final class Cookie_Smart_Plugin
         return $links;
     }
 
+    /**
+     * Server Cookie Smart: https://cookiesmart.it. Per lo sviluppo si può cambiare con la costante
+     * COOKIESMART_SERVER_URL in wp-config.php; vale anche un indirizzo salvato dalle versioni precedenti.
+     */
+    private function serverUrl(): string
+    {
+        $url = defined('COOKIESMART_SERVER_URL') ? (string) constant('COOKIESMART_SERVER_URL') : $this->settings()['server_url'];
+
+        return untrailingslashit($url ?: 'https://cookiesmart.it');
+    }
+
+    /** Indirizzo di una pagina del sito Cookie Smart (registrazione, accesso). */
+    private function siteUrl(string $path = ''): string
+    {
+        return $this->serverUrl() . $path;
+    }
+
+    /** Link sotto la descrizione del plugin, nella pagina Plugin. */
+    public function rowMeta(array $links, string $file): array
+    {
+        if ($file === plugin_basename(__FILE__)) {
+            $links[] = '<a href="' . esc_url($this->siteUrl()) . '" target="_blank" rel="noopener">' . esc_html__('Sito di Cookie Smart', 'cookie-smart') . '</a>';
+            if (!$this->isConfigured()) {
+                $links[] = '<a href="' . esc_url($this->siteUrl('/app/register')) . '" target="_blank" rel="noopener">' . esc_html__('Crea un account', 'cookie-smart') . '</a>';
+            }
+        }
+        return $links;
+    }
+
+    /** Avviso nella pagina Plugin e nella Bacheca finché il plugin non ha la chiave del sito. */
+    public function setupNotice(): void
+    {
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+        if ($this->isConfigured() || !current_user_can('manage_options') || !$screen || !in_array($screen->id, ['plugins', 'dashboard'], true)) {
+            return;
+        }
+
+        printf(
+            '<div class="notice notice-warning"><p><strong>%s</strong> %s</p><p><a class="button button-primary" href="%s">%s</a></p></div>',
+            esc_html__('Cookie Smart è installato ma non ancora collegato:', 'cookie-smart'),
+            esc_html__('il banner non viene mostrato finché non inserisci la chiave del sito.', 'cookie-smart'),
+            esc_url(admin_url('admin.php?page=cookie-smart')),
+            esc_html__('Collega Cookie Smart', 'cookie-smart')
+        );
+    }
+
+    /** Guida all'attivazione nella pagina del plugin, per chi lo ha installato senza passare dal sito. */
+    private function renderSetupGuide(): void
+    {
+        ?>
+        <div class="card" style="max-width:720px;padding:16px 20px;margin:16px 0">
+            <h2 style="margin-top:0"><?php esc_html_e('Per attivare il banner ti serve un account Cookie Smart', 'cookie-smart'); ?></h2>
+            <ol style="margin-left:1.2em">
+                <li><?php esc_html_e('Crea l\'account sul sito di Cookie Smart: 14 giorni di prova gratuita, senza carta di credito.', 'cookie-smart'); ?></li>
+                <li><?php esc_html_e('Nel pannello aggiungi il tuo sito con il suo dominio.', 'cookie-smart'); ?></li>
+                <li><?php esc_html_e('Copia la «Chiave del sito» dalla pagina del sito e incollala qui sotto.', 'cookie-smart'); ?></li>
+            </ol>
+            <p>
+                <a class="button button-primary" href="<?php echo esc_url($this->siteUrl('/app/register')); ?>" target="_blank" rel="noopener"><?php esc_html_e('Crea l\'account gratis', 'cookie-smart'); ?></a>
+                <a class="button" href="<?php echo esc_url($this->siteUrl('/app/login')); ?>" target="_blank" rel="noopener"><?php esc_html_e('Ho già un account: accedi', 'cookie-smart'); ?></a>
+            </p>
+        </div>
+        <?php
+    }
+
     public function registerSettings(): void
     {
         register_setting('cookie_smart', self::OPTION, [
@@ -121,7 +189,8 @@ final class Cookie_Smart_Plugin
             'sanitize_callback' => function ($in) {
                 delete_transient(self::TRANSIENT); // ricarica la configurazione remota
                 return [
-                    'server_url' => esc_url_raw(trim($in['server_url'] ?? '')),
+                    // Non più nel modulo: si conserva l'eventuale indirizzo salvato in precedenza
+                    'server_url' => esc_url_raw((string) ($this->settings()['server_url'] ?? '')),
                     'site_key' => preg_replace('/[^A-Za-z0-9]/', '', $in['site_key'] ?? ''),
                     'buffer' => empty($in['buffer']) ? 0 : 1,
                 ];
@@ -144,16 +213,18 @@ final class Cookie_Smart_Plugin
                 </span>
                 Cookie Smart
             </h1>
+            <?php if (!$this->isConfigured()) { $this->renderSetupGuide(); } ?>
             <form method="post" action="options.php">
                 <?php settings_fields('cookie_smart'); ?>
                 <table class="form-table" role="presentation">
                     <tr>
-                        <th scope="row"><label for="cookiesmart-server">URL server</label></th>
-                        <td><input id="cookiesmart-server" type="url" class="regular-text" name="<?php echo esc_attr(self::OPTION); ?>[server_url]" value="<?php echo esc_attr($s['server_url']); ?>" placeholder="https://cookiesmart.it"></td>
-                    </tr>
-                    <tr>
                         <th scope="row"><label for="cookiesmart-key">Chiave del sito</label></th>
-                        <td><input id="cookiesmart-key" type="text" class="regular-text code" name="<?php echo esc_attr(self::OPTION); ?>[site_key]" value="<?php echo esc_attr($s['site_key']); ?>"></td>
+                        <td><input id="cookiesmart-key" type="text" class="regular-text code" name="<?php echo esc_attr(self::OPTION); ?>[site_key]" value="<?php echo esc_attr($s['site_key']); ?>">
+                            <p class="description"><?php printf(
+                                /* translators: %s: link al pannello Cookie Smart */
+                                esc_html__('La trovi nel %s, nella pagina del sito.', 'cookie-smart'),
+                                '<a href="' . esc_url($this->siteUrl('/app/login')) . '" target="_blank" rel="noopener">' . esc_html__('pannello Cookie Smart', 'cookie-smart') . '</a>'
+                            ); ?></p></td>
                     </tr>
                     <tr>
                         <th scope="row">Blocco nel tema</th>
@@ -198,7 +269,7 @@ final class Cookie_Smart_Plugin
         }
 
         $s = $this->settings();
-        $url = untrailingslashit($s['server_url']) . '/api/v1/sites/' . rawurlencode($s['site_key']) . '/config';
+        $url = $this->serverUrl() . '/api/v1/sites/' . rawurlencode($s['site_key']) . '/config';
         $res = wp_remote_get($url, ['timeout' => 5, 'headers' => ['Accept' => 'application/json']]);
 
         $data = null;
@@ -236,7 +307,7 @@ final class Cookie_Smart_Plugin
             return $cached ?: null;
         }
 
-        $server = untrailingslashit($this->settings()['server_url'] ?: 'https://cookiesmart.it');
+        $server = $this->serverUrl();
         $res = wp_remote_get($server . '/api/v1/updates/wordpress', ['timeout' => 5, 'headers' => ['Accept' => 'application/json']]);
         $code = is_wp_error($res) ? 0 : (int) wp_remote_retrieve_response_code($res);
         $data = $code === 200 ? json_decode(wp_remote_retrieve_body($res), true) : null;
