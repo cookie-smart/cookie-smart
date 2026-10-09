@@ -20,6 +20,7 @@
   <a href="https://cookiesmart.it"><strong>cookiesmart.it</strong></a> ·
   <a href="#plugin-wordpress">Plugin WordPress</a> ·
   <a href="#modulo-prestashop">Modulo PrestaShop</a> ·
+  <a href="#laravel">Laravel</a> ·
   <a href="https://cookiesmart.it/contatti">Contatti</a>
 </p>
 
@@ -35,7 +36,8 @@
 ## Cos'è
 
 Cookie Smart mette in regola con i cookie siti web ed e-commerce: un banner da installare con il plugin per
-WordPress, con il modulo per PrestaShop o con una riga di codice su qualsiasi altro sito, gestito da un pannello online.
+WordPress, con il modulo per PrestaShop o con una riga di codice nel layout di un'applicazione **Laravel**, PHP o
+di qualsiasi altro sito, gestito da un pannello online.
 
 Un banner da solo non basta. Se Google Analytics, il pixel di Facebook o un video di YouTube partono prima che il
 visitatore abbia scelto, il sito non è conforme anche se il banner c'è. Cookie Smart **blocca gli script prima che partano**
@@ -88,12 +90,12 @@ o in un avviso nel back office di PrestaShop.
 ### Plugin WordPress
 
 <p>
-  <a href="https://cookiesmart.it/download/wordpress"><img src="https://img.shields.io/badge/Scarica-cookie--smart.zip-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="Scarica il plugin WordPress"></a>
+  <a href="https://github.com/pcwebagency/cookie-smart/releases/download/wordpress-v1.2.0/cookie-smart.zip"><img src="https://img.shields.io/badge/Scarica-cookie--smart.zip_1.2.0-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="Scarica il plugin WordPress"></a>
 </p>
 
 Richiede WordPress 6.0 o successivo e PHP 7.4 o successivo.
 
-1. Scarica [`cookie-smart.zip`](https://cookiesmart.it/download/wordpress), l'ultima versione del plugin.
+1. Scarica [`cookie-smart.zip`](https://github.com/pcwebagency/cookie-smart/releases/download/wordpress-v1.2.0/cookie-smart.zip), l'ultima versione del plugin.
 2. In WordPress: *Plugin › Aggiungi nuovo › Carica plugin*, scegli lo zip e attivalo.
 3. Dal menu laterale **Cookie Smart** (icona dello scudo) inserisci la **chiave del sito**, che trovi nel pannello di Cookie Smart.
 4. Escludi lo script di Cookie Smart da minificazione, combinazione e «ritardo JS» del plugin di cache.
@@ -106,12 +108,12 @@ Le nuove versioni compaiono tra gli aggiornamenti dei plugin, anche con gli aggi
 ### Modulo PrestaShop
 
 <p>
-  <a href="https://cookiesmart.it/download/prestashop"><img src="https://img.shields.io/badge/Scarica-cookiesmart.zip-df0067?style=for-the-badge&logo=prestashop&logoColor=white" alt="Scarica il modulo PrestaShop"></a>
+  <a href="https://github.com/pcwebagency/cookie-smart/releases/download/prestashop-v1.2.0/cookiesmart.zip"><img src="https://img.shields.io/badge/Scarica-cookiesmart.zip_1.2.0-df0067?style=for-the-badge&logo=prestashop&logoColor=white" alt="Scarica il modulo PrestaShop"></a>
 </p>
 
 Per PrestaShop 1.7.1 e successivi, 8 e 9.
 
-1. Scarica [`cookiesmart.zip`](https://cookiesmart.it/download/prestashop), l'ultima versione del modulo.
+1. Scarica [`cookiesmart.zip`](https://github.com/pcwebagency/cookie-smart/releases/download/prestashop-v1.2.0/cookiesmart.zip), l'ultima versione del modulo.
 2. Nel back office: *Moduli › Gestione moduli › Carica un modulo* e scegli lo zip.
 3. *Configura*: inserisci la **chiave del sito**, che trovi nel pannello di Cookie Smart, e lascia attivo il *Blocco lato server*.
 4. *Parametri avanzati › Prestazioni › Svuota la cache*.
@@ -121,6 +123,58 @@ Il modulo inserisce il banner come primo elemento della pagina e blocca gli scri
 Quando esce una nuova versione compare un avviso nella dashboard del back office con il pulsante «Aggiorna».
 
 [Novità](prestashop-module/CHANGELOG.md) · [Tutte le versioni](../../releases?q=prestashop-v&expanded=true) · [Sorgente](prestashop-module/cookiesmart)
+
+### Laravel
+
+Nessun pacchetto Composer da installare: basta una riga nel layout Blade comune a tutte le pagine.
+
+1. Nel `.env` aggiungi la **chiave del sito**, che trovi nel pannello di Cookie Smart:
+
+   ```dotenv
+   COOKIESMART_SITE_KEY=la-chiave-del-tuo-sito
+   ```
+
+2. In `config/services.php`:
+
+   ```php
+   'cookiesmart' => [
+       'key' => env('COOKIESMART_SITE_KEY'),
+   ],
+   ```
+
+3. Nel layout (es. `resources/views/layouts/app.blade.php`), come **primo elemento** del `<head>`,
+   prima di `@vite`, Google Tag Manager e degli altri script:
+
+   ```blade
+   <head>
+       @if (config('services.cookiesmart.key'))
+           <script src="https://cookiesmart.it/api/c/{{ config('services.cookiesmart.key') }}.js"></script>
+       @endif
+       <meta charset="utf-8">
+       ...
+   ```
+
+4. Per il link «Preferenze cookie» nel footer:
+
+   ```blade
+   <a href="#cookiesmart-preferences">Preferenze cookie</a>
+   ```
+
+Il banner blocca da solo Facebook, Hotjar, YouTube, Google Maps e gli altri servizi riconosciuti, anche quando li
+inserisce un altro script. Per uno script tuo da attivare solo dopo il consenso, marcalo con la categoria
+(`functional`, `analytics` o `marketing`): parte quando il visitatore la accetta.
+
+```blade
+<script type="text/plain" data-cookiesmart-category="marketing">
+    // codice eseguito solo con il consenso al marketing
+</script>
+```
+
+I cookie di Laravel per la sessione e la protezione CSRF (`nome_app_session`, es. `laravel_session`, e `XSRF-TOKEN`)
+sono tecnici: non richiedono il consenso e restano attivi.
+
+Se in produzione usi `php artisan config:cache`, rilancialo dopo aver aggiunto la chiave al `.env`: finché la
+configurazione in cache non contiene la chiave, lo script non viene inserito.
 
 ### Qualsiasi altro sito
 
