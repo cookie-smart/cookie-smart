@@ -29,6 +29,7 @@ class CookieSmart extends Module
     const CONF_UPDATE = 'COOKIESMART_UPDATE';
     const CONF_UPDATE_UNTIL = 'COOKIESMART_UPDATE_UNTIL';
 
+    /** Server Cookie Smart. Per lo sviluppo si cambia solo da riga di comando (COOKIESMART_SERVER_URL). */
     const DEFAULT_SERVER = 'https://cookiesmart.it';
 
     /** @var array|null configurazione remota letta in questa richiesta */
@@ -38,7 +39,7 @@ class CookieSmart extends Module
     {
         $this->name = 'cookiesmart';
         $this->tab = 'front_office_features';
-        $this->version = '1.2.0';
+        $this->version = '1.3.0';
         $this->author = 'PC Web Agency';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = ['min' => '1.7.1.0', 'max' => _PS_VERSION_];
@@ -86,15 +87,11 @@ class CookieSmart extends Module
         }
 
         if (Tools::isSubmit('submitCookieSmart')) {
-            $server = rtrim(trim((string) Tools::getValue(self::CONF_SERVER)), '/');
             $key = preg_replace('/[^A-Za-z0-9]/', '', (string) Tools::getValue(self::CONF_KEY));
 
-            if (!Validate::isAbsoluteUrl($server) || stripos($server, 'https://') !== 0) {
-                $output .= $this->displayError($this->l('Indica l\'indirizzo del server Cookie Smart, con https://'));
-            } elseif (strlen($key) < 16) {
+            if (strlen($key) < 16) {
                 $output .= $this->displayError($this->l('La chiave del sito non è valida: copiala dal pannello Cookie Smart, nella pagina del sito.'));
             } else {
-                Configuration::updateValue(self::CONF_SERVER, $server);
                 Configuration::updateValue(self::CONF_KEY, $key);
                 Configuration::updateValue(self::CONF_BLOCK, (int) Tools::getValue(self::CONF_BLOCK));
                 $this->clearRemoteConfig();
@@ -118,17 +115,10 @@ class CookieSmart extends Module
                 'input' => [
                     [
                         'type' => 'text',
-                        'label' => $this->l('Indirizzo del server'),
-                        'name' => self::CONF_SERVER,
-                        'required' => true,
-                        'desc' => $this->l('Di norma https://cookiesmart.it'),
-                    ],
-                    [
-                        'type' => 'text',
                         'label' => $this->l('Chiave del sito'),
                         'name' => self::CONF_KEY,
                         'required' => true,
-                        'desc' => $this->l('La trovi nel pannello Cookie Smart, nella pagina del sito, alla voce «Chiave del sito».'),
+                        'desc' => $this->l('La trovi nel pannello Cookie Smart, nella pagina del sito, alla voce «Chiave del sito».') . ' ' . sprintf($this->l('Accesso al pannello: %s'), $this->serverUrl() . '/app/login'),
                     ],
                     [
                         'type' => 'switch',
@@ -154,7 +144,6 @@ class CookieSmart extends Module
         $helper->submit_action = 'submitCookieSmart';
         $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
         $helper->fields_value = [
-            self::CONF_SERVER => Configuration::get(self::CONF_SERVER) ?: self::DEFAULT_SERVER,
             self::CONF_KEY => Configuration::get(self::CONF_KEY),
             self::CONF_BLOCK => (int) Configuration::get(self::CONF_BLOCK),
         ];
@@ -162,10 +151,29 @@ class CookieSmart extends Module
         return $helper->generateForm([$form]);
     }
 
+    /** Guida all'attivazione per chi ha installato il modulo senza un account Cookie Smart. */
+    private function renderSetupGuide()
+    {
+        $register = htmlspecialchars($this->serverUrl() . '/app/register', ENT_QUOTES, 'UTF-8');
+        $login = htmlspecialchars($this->serverUrl() . '/app/login', ENT_QUOTES, 'UTF-8');
+
+        return '<div class="panel">'
+            . '<h3><i class="icon-shield"></i> ' . $this->l('Per attivare il banner ti serve un account Cookie Smart') . '</h3>'
+            . '<ol>'
+            . '<li>' . $this->l('Crea l\'account sul sito di Cookie Smart: 14 giorni di prova gratuita, senza carta di credito.') . '</li>'
+            . '<li>' . $this->l('Nel pannello aggiungi il tuo negozio con il suo dominio.') . '</li>'
+            . '<li>' . $this->l('Copia la «Chiave del sito» dalla pagina del sito e incollala qui sotto, poi salva.') . '</li>'
+            . '</ol>'
+            . '<p>'
+            . '<a class="btn btn-primary" href="' . $register . '" target="_blank" rel="noopener">' . $this->l('Crea l\'account gratis') . '</a> '
+            . '<a class="btn btn-default" href="' . $login . '" target="_blank" rel="noopener">' . $this->l('Ho già un account: accedi') . '</a>'
+            . '</p></div>';
+    }
+
     private function renderStatus()
     {
         if (!$this->isConfigured()) {
-            return '<div class="alert alert-info">' . $this->l('Inserisci la chiave del sito per attivare il banner.') . '</div>';
+            return $this->renderSetupGuide();
         }
 
         $cfg = $this->remoteConfig(true);
@@ -176,6 +184,8 @@ class CookieSmart extends Module
         return '<div class="alert alert-success">'
             . sprintf($this->l('Collegato a Cookie Smart. Servizi da bloccare: %d. Versione della configurazione: %d.'), count($cfg['blockPatterns'] ?? []), (int) ($cfg['version'] ?? 0))
             . '<br>' . $this->l('Per il link «Preferenze cookie» nel footer usa l\'indirizzo #cookiesmart-preferences (es. in Moduli › Link List).')
+            // Indirizzo diverso da quello predefinito: solo in sviluppo (impostato da riga di comando)
+            . ($this->serverUrl() !== self::DEFAULT_SERVER ? '<br>' . sprintf($this->l('Server di sviluppo: %s'), htmlspecialchars($this->serverUrl(), ENT_QUOTES, 'UTF-8')) : '')
             . '</div>';
     }
 
@@ -211,6 +221,21 @@ class CookieSmart extends Module
     /** Avviso nella dashboard del back office quando c'è una nuova versione. */
     public function hookDisplayDashboardTop($params)
     {
+        // PrestaShop esegue questo hook nella barra del titolo di tutte le pagine del back office:
+        // gli avvisi si mostrano solo nella dashboard (la configurazione del modulo ha già i suoi)
+        $controller = $this->context->controller ?? null;
+        if (!$controller || ($controller->controller_name ?? '') !== 'AdminDashboard') {
+            return '';
+        }
+
+        if (!$this->isConfigured()) {
+            $text = $this->l('Cookie Smart è installato ma non ancora collegato: il banner non viene mostrato finché non inserisci la chiave del sito.');
+            $url = $this->context->link->getAdminLink('AdminModules', true, [], ['configure' => $this->name]);
+
+            return '<div class="alert alert-warning">' . $text
+                . ' <a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '">' . $this->l('Collega Cookie Smart') . '</a></div>';
+        }
+
         if ($this->upgradePending()) {
             $text = $this->l('L\'aggiornamento di Cookie Smart non è stato completato.');
         } elseif ($r = $this->availableUpdate()) {

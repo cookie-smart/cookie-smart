@@ -108,12 +108,12 @@ Le nuove versioni compaiono tra gli aggiornamenti dei plugin, anche con gli aggi
 ### Modulo PrestaShop
 
 <p>
-  <a href="https://github.com/cookie-smart/cookie-smart/releases/download/prestashop-v1.2.0/cookiesmart.zip"><img src="https://img.shields.io/badge/Scarica-cookiesmart.zip_1.2.0-df0067?style=for-the-badge&logo=prestashop&logoColor=white" alt="Scarica il modulo PrestaShop"></a>
+  <a href="https://github.com/cookie-smart/cookie-smart/releases/download/prestashop-v1.3.0/cookiesmart.zip"><img src="https://img.shields.io/badge/Scarica-cookiesmart.zip_1.3.0-df0067?style=for-the-badge&logo=prestashop&logoColor=white" alt="Scarica il modulo PrestaShop"></a>
 </p>
 
 Per PrestaShop 1.7.1 e successivi, 8 e 9.
 
-1. Scarica [`cookiesmart.zip`](https://github.com/cookie-smart/cookie-smart/releases/download/prestashop-v1.2.0/cookiesmart.zip), l'ultima versione del modulo.
+1. Scarica [`cookiesmart.zip`](https://github.com/cookie-smart/cookie-smart/releases/download/prestashop-v1.3.0/cookiesmart.zip), l'ultima versione del modulo.
 2. Nel back office: *Moduli › Gestione moduli › Carica un modulo* e scegli lo zip.
 3. *Configura*: inserisci la **chiave del sito**, che trovi nel pannello di Cookie Smart, e lascia attivo il *Blocco lato server*.
 4. *Parametri avanzati › Prestazioni › Svuota la cache*.

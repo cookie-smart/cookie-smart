@@ -2,6 +2,12 @@
 
 Novità del modulo PrestaShop di Cookie Smart. Le versioni sono scaricabili dalle [release](../../../releases).
 
+## 1.3.0
+
+- Guida all'attivazione per chi installa il modulo senza un account: come creare l'account, aggiungere il negozio e trovare la chiave, con i link al sito di Cookie Smart.
+- Avviso nella dashboard del back office finché il modulo non è collegato.
+- Basta la chiave del sito: tolto il campo «Indirizzo del server», che è sempre https://cookiesmart.it.
+
 ## 1.2.0
 
 - Aggiornamenti dal back office: quando esce una nuova versione compare un avviso nella dashboard e nella configurazione del modulo, con il pulsante «Aggiorna».
