@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Cookie Smart 1.4.0\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: cookie-smart\n"
+
+msgid "Cookie banner with prior blocking of scripts and iframes, Google Consent Mode v2 and consent log, compliant with the GDPR. Requires a Cookie Smart account."
+msgstr "Banner cookie con blocco preventivo di script e iframe, Google Consent Mode v2 e registro dei consensi, conforme al GDPR. Richiede un account Cookie Smart."
+
+msgid "Settings"
+msgstr "Impostazioni"
+
+msgid "Create an account"
+msgstr "Crea un account"
+
+msgid "Cookie Smart is installed but not connected yet:"
+msgstr "Cookie Smart è installato ma non ancora collegato:"
+
+msgid "the cookie banner is not shown until you enter your site key."
+msgstr "il banner non viene mostrato finché non inserisci la chiave del sito."
+
+msgid "Connect Cookie Smart"
+msgstr "Collega Cookie Smart"
+
+msgid "To activate the banner you need a Cookie Smart account"
+msgstr "Per attivare il banner ti serve un account Cookie Smart"
+
+msgid "Create your account on the Cookie Smart website: 14-day free trial, no credit card required."
+msgstr "Crea l'account sul sito di Cookie Smart: 14 giorni di prova gratuita, senza carta di credito."
+
+msgid "In the dashboard, add your website with its domain."
+msgstr "Nel pannello aggiungi il tuo sito con il suo dominio."
+
+msgid "Copy the \"Site key\" from your website page and paste it below."
+msgstr "Copia la «Chiave del sito» dalla pagina del sito e incollala qui sotto."
+
+msgid "Create a free account"
+msgstr "Crea l'account gratis"
+
+msgid "I already have an account: log in"
+msgstr "Ho già un account: accedi"
+
+msgid "Site key"
+msgstr "Chiave del sito"
+
+msgid "You can find it in the %s, on your website page."
+msgstr "La trovi nel %s, nella pagina del sito."
+
+msgid "Cookie Smart dashboard"
+msgstr "pannello Cookie Smart"
+
+msgid "Blocking in the theme"
+msgstr "Blocco nel tema"
+
+msgid "Also rewrite scripts and iframes added directly in the theme or in the content"
+msgstr "Riscrivi anche script e iframe inseriti direttamente nel tema o nei contenuti"
+
+msgid "Check that it works with your caching plugin enabled."
+msgstr "Verifica il funzionamento con il plugin di cache attivo."
+
+msgid "Requires WordPress 6.9 or later."
+msgstr "Richiede WordPress 6.9 o successivo."
+
+msgid "Status"
+msgstr "Stato"
+
+msgid "Connected to the server. Configuration version: %1$s, blocking patterns: %2$s."
+msgstr "Connesso al server. Versione configurazione: %1$s, pattern di blocco: %2$s."
+
+msgid "Unable to read the configuration from the server: check your site key. The banner is loaded anyway."
+msgstr "Impossibile leggere la configurazione dal server: controlla la chiave del sito. Il banner viene comunque caricato."
+
+msgid "For a \"Cookie preferences\" link in the footer use %1$s or the shortcode %2$s."
+msgstr "Per un link «Preferenze cookie» nel footer usa %1$s oppure lo shortcode %2$s."
+
+msgid "Cookie preferences"
+msgstr "Preferenze cookie"
+
+msgid "Cookie banner with prior blocking of scripts and iframes, connected to the Cookie Smart service."
+msgstr "Banner cookie con blocco preventivo di script e iframe, collegato al servizio Cookie Smart."
+
+msgid "The downloaded zip does not match the published version: update cancelled."
+msgstr "Lo zip scaricato non corrisponde alla versione pubblicata: aggiornamento annullato."

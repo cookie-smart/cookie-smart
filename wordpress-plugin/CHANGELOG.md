@@ -2,26 +2,37 @@
 
 Novità del plugin WordPress di Cookie Smart. Le versioni sono scaricabili dalle [release](../../../releases).
 
+## 1.4.0
+
+- Ready for the WordPress.org plugin directory: English source texts with the Italian translation included, scripts printed with the WordPress functions, "External services" section in the readme.
+- The plugin header now includes the plugin and author pages and the translations folder.
+- "Blocking in the theme" now uses the WordPress template output buffer (WordPress 6.9 or later) instead of a buffer opened by the plugin.
+
 ## 1.3.0
 
-- Guida all'attivazione per chi installa il plugin senza un account: come creare l'account, aggiungere il sito e trovare la chiave, con i link al sito di Cookie Smart.
-- Avviso nella pagina Plugin e nella Bacheca finché il plugin non è collegato.
+- Setup guide for users who install the plugin without an account: how to create the account, add the website and find the site key, with links to the Cookie Smart website.
+- Reminder on the Plugins page and on the Dashboard until the plugin is connected.
 
 ## 1.2.0
 
-- Aggiornamenti dalla bacheca di WordPress: le nuove versioni compaiono tra gli aggiornamenti dei plugin, anche con gli aggiornamenti automatici. Lo zip viene scaricato dalle release GitHub di Cookie Smart e verificato con l'impronta sha256 prima dell'installazione.
+- Updates from the WordPress dashboard for the version distributed on GitHub, with the zip verified by its sha256 fingerprint.
 
 ## 1.1.0
 
-- Il banner si carica dalla CDN europea di Cookie Smart quando il server la indica: più veloce e disponibile anche se il server principale non risponde.
-- Se il server non risponde, il plugin continua a usare l'ultima configurazione ricevuta: gli script restano bloccati.
+- The banner is loaded from the Cookie Smart European CDN when the service provides it: faster, and available even if the main server is down.
+- If the service is unreachable, the plugin keeps using the last configuration received: scripts stay blocked.
 
 ## 1.0.0
 
-- Prima versione pubblica.
-- Banner Cookie Smart inserito come primo elemento del `<head>`.
-- Blocco lato server degli script e degli iframe dei servizi da bloccare (anche con i plugin di cache).
-- Servizi da bloccare letti dal server Cookie Smart: un'unica fonte per banner e plugin.
-- Ponte verso la WP Consent API.
-- Menu dedicato con icona e shortcode [cookie_smart_preferences] per il link «Preferenze cookie».
-- Server predefinito https://cookiesmart.it: basta inserire la chiave del sito.
+- First public release.
+- Cookie Smart banner printed as the first element of the `<head>`.
+- Server-side blocking of the scripts and iframes of the services to block, also with caching plugins.
+- Services to block read from the Cookie Smart service: one source for banner and plugin.
+- Bridge to the WP Consent API.
+- Dedicated menu with icon and the [cookie_smart_preferences] shortcode.
+
+== Upgrade Notice ==
+
+## 1.4.0
+
+Texts translated through the WordPress translation system; no change to how the banner works.
