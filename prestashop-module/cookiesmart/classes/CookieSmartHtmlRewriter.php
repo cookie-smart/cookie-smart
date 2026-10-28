@@ -46,6 +46,23 @@ class CookieSmartHtmlRewriter
         return preg_replace('/<head\b[^>]*>/i', '$0' . "\n" . $tag, $html, 1) ?? $html;
     }
 
+    /**
+     * Replaces the [cookiesmart_declaration] text written in a CMS page (also when the editor wraps it
+     * in a paragraph) with the placeholder filled in by the banner: the cookie declaration.
+     */
+    public static function injectDeclaration(string $html): string
+    {
+        // Body only: the text may also end up in the <head> (title, meta description), where it stays as it is
+        $start = stripos($html, '<body');
+        if ($start === false || strpos($html, '[cookiesmart_declaration]', $start) === false) {
+            return $html;
+        }
+        $div = '<div class="cookiesmart-declaration" data-cookiesmart-declaration></div>';
+        $body = preg_replace('#<p\b[^>]*>(?:\s|&nbsp;)*\[cookiesmart_declaration\](?:\s|&nbsp;)*</p>#i', $div, substr($html, $start));
+
+        return substr($html, 0, $start) . str_replace('[cookiesmart_declaration]', $div, $body ?? substr($html, $start));
+    }
+
     public function categoryForUrl(string $url): ?string
     {
         foreach ($this->patterns as $p) {

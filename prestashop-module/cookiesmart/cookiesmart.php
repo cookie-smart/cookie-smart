@@ -50,7 +50,7 @@ class CookieSmart extends Module
     {
         $this->name = 'cookiesmart';
         $this->tab = 'front_office_features';
-        $this->version = '1.4.0';
+        $this->version = '1.5.0';
         $this->author = 'PC Web Agency';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = ['min' => '1.7.1.0', 'max' => _PS_VERSION_];
@@ -231,6 +231,7 @@ class CookieSmart extends Module
         }
 
         $html = CookieSmartHtmlRewriter::injectLoader($params['html'], $this->loaderUrl());
+        $html = CookieSmartHtmlRewriter::injectDeclaration($html);
 
         if (Configuration::get(self::CONF_BLOCK)) {
             $cfg = $this->remoteConfig() ?: [];

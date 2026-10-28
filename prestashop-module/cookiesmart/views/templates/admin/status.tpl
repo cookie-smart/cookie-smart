@@ -18,6 +18,7 @@
     {l s='Services to block:' mod='cookiesmart'} <strong>{$cookiesmart_patterns|intval}</strong>.
     {l s='Configuration version:' mod='cookiesmart'} <strong>{$cookiesmart_config_version|intval}</strong>.
     <br>{l s='For the "Cookie preferences" link in the footer use the address #cookiesmart-preferences (e.g. in Modules > Link List).' mod='cookiesmart'}
+    <br>{l s='To show the up-to-date list of cookies in your cookie policy, write [cookiesmart_declaration] in its CMS page (Design > Pages).' mod='cookiesmart'}
     {if $cookiesmart_dev_server}
       <br>{l s='Development server:' mod='cookiesmart'} {$cookiesmart_dev_server|escape:'html':'UTF-8'}
     {/if}

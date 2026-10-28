@@ -2,6 +2,10 @@
 
 Novità del modulo PrestaShop di Cookie Smart. Le versioni sono scaricabili dalle [release](../../../releases).
 
+## 1.5.0
+
+- Dichiarazione dei cookie: scrivendo `[cookiesmart_declaration]` nella pagina CMS della cookie policy, il banner ci mostra l'elenco aggiornato dei cookie e dei servizi per categoria, la data dell'ultima scansione e il consenso del visitatore, con il pulsante per modificare le preferenze. Istruzioni nella pagina di configurazione del modulo.
+
 ## 1.4.0
 
 - Testi del modulo in inglese con la traduzione italiana inclusa (`translations/it.php`), HTML del back office nei template Smarty, intestazioni di licenza AFL e file `LICENSE.txt`.

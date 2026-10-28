@@ -40,6 +40,7 @@ $_MODULE['<{cookiesmart}prestashop>status_29e5fa9b8a3a2f9750ec50115ee69dcc'] = '
 $_MODULE['<{cookiesmart}prestashop>status_833bfa6dc83f35b6ea0eb8c06def0631'] = 'Servizi da bloccare:';
 $_MODULE['<{cookiesmart}prestashop>status_dd6493a40854c12d7407cbc975884622'] = 'Versione della configurazione:';
 $_MODULE['<{cookiesmart}prestashop>status_51d959d12fdabb76484e61bed43b011a'] = 'Per il link «Preferenze cookie» nel footer usa l\'indirizzo #cookiesmart-preferences (es. in Moduli > Link List).';
+$_MODULE['<{cookiesmart}prestashop>status_bb1a9370f3fec8a0af0749f825cf5f17'] = 'Per mostrare l\'elenco aggiornato dei cookie nella cookie policy, scrivi [cookiesmart_declaration] nella sua pagina CMS (Aspetto > Pagine).';
 $_MODULE['<{cookiesmart}prestashop>status_1d2ab45afcef951d7d03989f869c7f32'] = 'Server di sviluppo:';
 $_MODULE['<{cookiesmart}prestashop>status_a5a0bf4ee4e14149cfcc0e54dd4080f8'] = 'Impossibile leggere la configurazione dal server: controlla la chiave del sito. Il banner viene comunque caricato e blocca i servizi dal browser.';
 $_MODULE['<{cookiesmart}prestashop>update_0c575cc22ba152c19d7c046311fde46c'] = 'I file di Cookie Smart %s sono già installati: manca l\'ultimo passaggio dell\'aggiornamento.';
