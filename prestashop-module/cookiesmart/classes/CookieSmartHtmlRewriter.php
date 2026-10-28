@@ -1,11 +1,28 @@
 <?php
 /**
- * Cookie Smart - riscrittura dell'HTML prima dell'invio al browser (blocco lato server).
+ * Cookie Smart for PrestaShop
  *
- * Classe indipendente da PrestaShop, testabile da sola (test/rewriter_test.php).
- * Stessa logica del plugin WordPress: gli script e gli iframe dei servizi in elenco diventano
- * type="text/plain" / data-src, così il browser non li scarica finché il banner non li sblocca.
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License version 3.0
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ *
+ * @author    PC Web Agency <info@cookiesmart.it>
+ * @copyright PC Web Agency
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
+
+/*
+ * Rewrites the HTML before it is sent to the browser (server-side blocking).
+ * The scripts and iframes of the listed services become type="text/plain" / data-src, so the browser
+ * does not download them until the banner unblocks them after consent.
+ */
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 class CookieSmartHtmlRewriter
 {
     /** @var array<int, array{pattern: string, category: string}> */
@@ -18,11 +35,11 @@ class CookieSmartHtmlRewriter
         }));
     }
 
-    /** Inserisce lo script del banner come primo elemento del <head>, se non c'è già. */
+    /** Adds the banner script as the first element of the <head>, unless it is already there. */
     public static function injectLoader(string $html, string $loaderUrl): string
     {
         if ($loaderUrl === '' || strpos($html, $loaderUrl) !== false) {
-            return $html; // già presente (es. inserito a mano nel tema)
+            return $html; // already present (e.g. added manually to the theme)
         }
         $tag = '<script src="' . htmlspecialchars($loaderUrl, ENT_QUOTES) . '" data-cfasync="false"></script>';
 
@@ -46,7 +63,7 @@ class CookieSmartHtmlRewriter
             return $html;
         }
 
-        // <script src="..."> di un servizio in elenco
+        // <script src="..."> of a listed service
         $html = preg_replace_callback('/<script\b[^>]*\ssrc=(["\'])(.*?)\1[^>]*>/is', function ($m) {
             if (strpos($m[0], 'data-cookiesmart-category') !== false) {
                 return $m[0];
@@ -56,7 +73,7 @@ class CookieSmartHtmlRewriter
             return $cat ? self::blockScriptTag($m[0], $cat) : $m[0];
         }, $html) ?? $html;
 
-        // <iframe src="..."> -> data-src: il banner mostra un segnaposto
+        // <iframe src="..."> -> data-src: the banner shows a placeholder
         $html = preg_replace_callback('/<iframe\b[^>]*\ssrc=(["\'])(.*?)\1[^>]*>/is', function ($m) {
             if (strpos($m[0], 'data-cookiesmart-category') !== false) {
                 return $m[0];
@@ -78,7 +95,7 @@ class CookieSmartHtmlRewriter
         $attr = ' data-cookiesmart-category="' . htmlspecialchars($category, ENT_QUOTES) . '"';
 
         if (preg_match('/\stype=(["\'])(.*?)\1/i', $tag, $m)) {
-            // conserva il type originale (es. module) per lo sblocco
+            // keep the original type (e.g. module) for unblocking
             if (strtolower($m[2]) !== 'text/javascript') {
                 $attr .= ' data-cookiesmart-type="' . htmlspecialchars($m[2], ENT_QUOTES) . '"';
             }

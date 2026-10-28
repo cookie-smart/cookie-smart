@@ -2,6 +2,12 @@
 
 Novità del modulo PrestaShop di Cookie Smart. Le versioni sono scaricabili dalle [release](../../../releases).
 
+## 1.4.0
+
+- Testi del modulo in inglese con la traduzione italiana inclusa (`translations/it.php`), HTML del back office nei template Smarty, intestazioni di licenza AFL e file `LICENSE.txt`.
+- Aggiornamenti da GitHub in una classe separata (`classes/CookieSmartUpdater.php`).
+- File `.htaccess` che blocca l'accesso diretto ai file PHP e ai template del modulo.
+
 ## 1.3.0
 
 - Guida all'attivazione per chi installa il modulo senza un account: come creare l'account, aggiungere il negozio e trovare la chiave, con i link al sito di Cookie Smart.
