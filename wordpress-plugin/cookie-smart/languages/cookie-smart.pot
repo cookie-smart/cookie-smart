@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Cookie Smart 1.4.0\n"
+"Project-Id-Version: Cookie Smart 1.5.0\n"
 "Report-Msgid-Bugs-To: https://cookiesmart.it/contatti\n"
-"POT-Creation-Date: 2026-10-18 20:02+0200\n"
+"POT-Creation-Date: 2026-10-28 10:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,8 +121,16 @@ msgid ""
 "%2$s."
 msgstr ""
 
-#: cookie-smart.php:285 cookie-smart.php:436
+#: cookie-smart.php:285 cookie-smart.php:443
 msgid "Cookie preferences"
+msgstr ""
+
+#. translators: %s: shortcode
+#: cookie-smart.php:292
+#, php-format
+msgid ""
+"To show the up-to-date list of cookies, grouped by category, in your cookie "
+"policy page, add the shortcode %s."
 msgstr ""
 
 #: includes/class-cookie-smart-updater.php:94
@@ -138,5 +146,13 @@ msgstr ""
 
 #. Description of the plugin
 #: cookie-smart.php
-msgid "Cookie banner with prior blocking of scripts and iframes, Google Consent Mode v2 and consent log, compliant with the GDPR. Requires a Cookie Smart account."
+msgid ""
+"Cookie banner with prior blocking of scripts and iframes, Google Consent "
+"Mode v2 and consent log, compliant with the GDPR. Requires a Cookie Smart "
+"account."
+msgstr ""
+
+#. Plugin Name of the plugin
+#: cookie-smart.php
+msgid "Cookie Smart – GDPR Cookie Banner & Consent Mode v2"
 msgstr ""

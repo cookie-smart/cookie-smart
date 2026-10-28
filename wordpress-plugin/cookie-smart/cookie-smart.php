@@ -3,7 +3,7 @@
  * Plugin Name:       Cookie Smart – GDPR Cookie Banner & Consent Mode v2
  * Plugin URI:        https://cookiesmart.it
  * Description:       Cookie banner with prior blocking of scripts and iframes, Google Consent Mode v2 and consent log, compliant with the GDPR. Requires a Cookie Smart account.
- * Version:           1.4.0
+ * Version:           1.5.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            PC Web Agency
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 
 final class Cookie_Smart_Plugin
 {
-    const VERSION = '1.4.0';
+    const VERSION = '1.5.0';
     const OPTION = 'cookie_smart_settings';
     const TRANSIENT = 'cookie_smart_remote_config';
     /** Ultima configurazione ricevuta: resta valida se il server non risponde. */
@@ -286,6 +286,13 @@ final class Cookie_Smart_Plugin
                         '<code>[cookie_smart_preferences]</code>'
                     );
                 ?></p>
+                <p><?php
+                    printf(
+                        /* translators: %s: shortcode */
+                        esc_html__('To show the up-to-date list of cookies, grouped by category, in your cookie policy page, add the shortcode %s.', 'cookie-smart'),
+                        '<code>[cookie_smart_declaration]</code>'
+                    );
+                ?></p>
             <?php endif; ?>
         </div>
         <?php
@@ -435,4 +442,9 @@ add_action('plugins_loaded', ['Cookie_Smart_Plugin', 'instance']);
 add_shortcode('cookie_smart_preferences', function ($atts) {
     $atts = shortcode_atts(['label' => __('Cookie preferences', 'cookie-smart')], $atts);
     return '<a href="#cookiesmart-preferences">' . esc_html($atts['label']) . '</a>';
+});
+
+// Dichiarazione dei cookie per la pagina della cookie policy: il segnaposto lo riempie il banner
+add_shortcode('cookie_smart_declaration', function () {
+    return '<div class="cookiesmart-declaration" data-cookiesmart-declaration></div>';
 });

@@ -4,7 +4,7 @@ Tags: cookie banner, gdpr, cookie consent, consent mode, cookies
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ It follows the GDPR, the ePrivacy Directive and the cookie guidelines of the Ita
 * **Google Consent Mode v2**: Google tags receive `default: denied` and then the visitor's choice (advanced mode); basic mode is available in the Cookie Smart dashboard.
 * **WP Consent API**: the visitor's choices are passed to the plugins that use the [WP Consent API](https://wordpress.org/plugins/wp-consent-api/).
 * **"Cookie preferences" link**: use the shortcode `[cookie_smart_preferences]` or a link to `#cookiesmart-preferences` in your footer menu.
+* **Cookie declaration**: add the shortcode `[cookie_smart_declaration]` to your cookie policy page to show the up-to-date list of cookies and services for each category, the date of the last scan and the visitor's consent, with a button to change it.
 * **Resilient**: if the service cannot be reached, the plugin keeps using the last configuration it received, so the services stay blocked.
 
 = What the Cookie Smart service adds =
@@ -101,6 +102,9 @@ Cookie Smart privacy policy: https://cookiesmart.it/privacy
 
 == Changelog ==
 
+= 1.5.0 =
+* New `[cookie_smart_declaration]` shortcode: the cookie declaration for your cookie policy page, kept up to date by the Cookie Smart scanner.
+
 = 1.4.0 =
 * Ready for the WordPress.org plugin directory: English source texts with the Italian translation included, scripts printed with the WordPress functions, "External services" section in the readme.
 * The plugin header now includes the plugin and author pages and the translations folder.
@@ -126,6 +130,9 @@ Cookie Smart privacy policy: https://cookiesmart.it/privacy
 * Dedicated menu with icon and the [cookie_smart_preferences] shortcode.
 
 == Upgrade Notice ==
+
+= 1.5.0 =
+Adds the [cookie_smart_declaration] shortcode to show the up-to-date cookie list in your cookie policy.
 
 = 1.4.0 =
 Texts translated through the WordPress translation system; no change to how the banner works.

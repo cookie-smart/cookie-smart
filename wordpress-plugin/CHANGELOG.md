@@ -2,6 +2,10 @@
 
 Novità del plugin WordPress di Cookie Smart. Le versioni sono scaricabili dalle [release](../../../releases).
 
+## 1.5.0
+
+- New `[cookie_smart_declaration]` shortcode: the cookie declaration for your cookie policy page, kept up to date by the Cookie Smart scanner.
+
 ## 1.4.0
 
 - Ready for the WordPress.org plugin directory: English source texts with the Italian translation included, scripts printed with the WordPress functions, "External services" section in the readme.
@@ -32,6 +36,10 @@ Novità del plugin WordPress di Cookie Smart. Le versioni sono scaricabili dalle
 - Dedicated menu with icon and the [cookie_smart_preferences] shortcode.
 
 == Upgrade Notice ==
+
+## 1.5.0
+
+Adds the [cookie_smart_declaration] shortcode to show the up-to-date cookie list in your cookie policy.
 
 ## 1.4.0
 
