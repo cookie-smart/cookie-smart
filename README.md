@@ -201,6 +201,6 @@ Per un link «Preferenze cookie» nel footer usa l'indirizzo `#cookiesmart-prefe
 <p align="center">
   Cookie Smart è un servizio di <strong>PC Web Agency</strong> ·
   <a href="https://cookiesmart.it/contatti">Contatti</a> ·
-  <a href="https://cookiesmart.it/privacy">Privacy</a> ·
+  <a href="https://cookiesmart.it/privacy-cookie-policy">Privacy e cookie policy</a> ·
   <a href="https://cookiesmart.it/termini">Termini di servizio</a>
 </p>
