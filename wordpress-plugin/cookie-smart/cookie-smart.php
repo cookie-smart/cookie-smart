@@ -3,7 +3,7 @@
  * Plugin Name:       Cookie Smart – GDPR Cookie Banner & Consent Mode v2
  * Plugin URI:        https://cookiesmart.it
  * Description:       Cookie banner with prior blocking of scripts and iframes, Google Consent Mode v2 and consent log, compliant with the GDPR. Requires a Cookie Smart account.
- * Version:           1.5.0
+ * Version:           1.5.1
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            PC Web Agency
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 
 final class Cookie_Smart_Plugin
 {
-    const VERSION = '1.5.0';
+    const VERSION = '1.5.1';
     const OPTION = 'cookie_smart_settings';
     const TRANSIENT = 'cookie_smart_remote_config';
     /** Ultima configurazione ricevuta: resta valida se il server non risponde. */
@@ -63,6 +63,8 @@ final class Cookie_Smart_Plugin
             // gestito da WordPress (dalla 6.9): WordPress lo apre e lo chiude, solo per le pagine HTML del sito.
             if (!empty($this->settings()['buffer']) && self::themeBlockingSupported()) {
                 add_filter('wp_template_enhancement_output_buffer', [$this, 'rewriteHtml']);
+                // Subito prima dell'avvio del buffer di WordPress (priorità 1000): lo tiene acceso anche se un altro plugin lo spegne
+                add_action('wp_before_include_template', [$this, 'keepTemplateBuffer'], 999);
             }
         }
 
@@ -403,6 +405,19 @@ final class Cookie_Smart_Plugin
     public static function themeBlockingSupported(): bool
     {
         return function_exists('wp_start_template_enhancement_output_buffer');
+    }
+
+    /**
+     * Elementor (4.x con WordPress 6.9+) spegne il buffer della pagina di WordPress
+     * (wp_should_output_buffer_template_for_enhancement = false) e la riscrittura del tema non partirebbe.
+     * Lo riaccendiamo solo adesso, subito prima del template: WordPress ha già deciso con il «no» di Elementor
+     * se spostare gli stili dei blocchi nel <head> (lo decide quando prepara gli stili, che qui forziamo prima),
+     * quindi nel buffer gira solo la nostra riscrittura. Il plugin non apre buffer propri.
+     */
+    public function keepTemplateBuffer(): void
+    {
+        wp_styles();
+        add_filter('wp_should_output_buffer_template_for_enhancement', '__return_true', PHP_INT_MAX);
     }
 
     public function rewriteHtml(string $html): string

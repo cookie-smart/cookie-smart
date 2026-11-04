@@ -4,7 +4,7 @@ Tags: cookie banner, gdpr, cookie consent, consent mode, cookies
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,7 +90,7 @@ Each page of your website loads the banner script from `https://cdn.cookiesmart.
 When a visitor makes a choice in the banner, the browser sends it to `https://cookiesmart.it/api/v1/consents`: a random consent ID, the categories accepted or rejected, the configuration version, the page address, the language and the browser user agent. The IP address is truncated before it is stored (IPv4 /24, IPv6 /48). Records are kept for 12 months as proof of consent.
 
 Cookie Smart terms of service: https://cookiesmart.it/termini
-Cookie Smart privacy policy: https://cookiesmart.it/privacy
+Cookie Smart privacy policy: https://cookiesmart.it/privacy-cookie-policy
 
 == Screenshots ==
 
@@ -101,6 +101,9 @@ Cookie Smart privacy policy: https://cookiesmart.it/privacy
 5. The consent log with filters and CSV export.
 
 == Changelog ==
+
+= 1.5.1 =
+* "Blocking in the theme" now also works with Elementor: Elementor turns off the WordPress template output buffer, so the plugin turns it back on right before the template, after WordPress has already decided how to load block styles (only the script and iframe blocking runs in it).
 
 = 1.5.0 =
 * New `[cookie_smart_declaration]` shortcode: the cookie declaration for your cookie policy page, kept up to date by the Cookie Smart scanner.
@@ -130,6 +133,9 @@ Cookie Smart privacy policy: https://cookiesmart.it/privacy
 * Dedicated menu with icon and the [cookie_smart_preferences] shortcode.
 
 == Upgrade Notice ==
+
+= 1.5.1 =
+Fixes "Blocking in the theme" on sites built with Elementor: scripts written directly in the theme (e.g. the Google tag) are blocked again until consent.
 
 = 1.5.0 =
 Adds the [cookie_smart_declaration] shortcode to show the up-to-date cookie list in your cookie policy.
